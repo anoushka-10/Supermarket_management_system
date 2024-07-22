@@ -28,6 +28,9 @@
                     <td th:text="${item.price}"></td>
                     <td>
                         <a th:href="@{/deleteitem/{id}(id=${item.id})}" class="btn btn-danger btn-sm mb-3">Delete</a>
+						<a th:href="@{/updateitem/{id}(id=${item.id})}" class="btn btn-primary btn-sm mb-3">
+												Update
+											</a>
                     </td>
                 </tr>
             </tbody>

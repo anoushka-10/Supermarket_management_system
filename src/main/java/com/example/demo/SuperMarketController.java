@@ -36,7 +36,7 @@ public class SuperMarketController {
 		model.addAttribute("item",sm);
 		return "additem";
 	}
-	@GetMapping("/updateItem/{Id}")
+	@GetMapping("/updateitem/{id}")
 	public String newStudent(@PathVariable int id, Model model) {
 		SuperMarket sm= new SuperMarket();
 		model.addAttribute("item",sm);
