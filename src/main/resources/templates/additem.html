@@ -22,10 +22,22 @@
                 <label for="price">Price</label>
                 <input type="number" step="0.01" class="form-control" id="price" th:field="*{price}" placeholder="Enter item price" required>
             </div>
-			<div class="form-group">
-			               <label for="price">Quantity</label>
-			               <input type="number" step="0.01" class="form-control" id="price" th:field="*{price}" placeholder="Enter item price" required>
-			           </div>
+            <div class="form-group">
+                <label for="quantity">Quantity</label>
+                <input type="number" class="form-control" id="quantity" th:field="*{quantity}" placeholder="Enter item quantity" required>
+            </div>
+            <div class="form-group">
+                <label for="shelf">Shelf</label>
+                <select class="form-control" id="shelf" th:field="*{shelf.shelfId}">
+                    <option th:each="shelf : ${list_of_shelves}" th:value="${shelf.shelfId}" th:text="${shelf.shelfName}">Shelf</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="rack">Rack</label>
+                <select class="form-control" id="rack" th:field="*{shelf.rack.rackId}">
+                    <option th:each="rack : ${list_of_racks}" th:value="${rack.rackId}">Rack</option>
+                </select>
+            </div>
             <button type="submit" class="btn btn-primary">Save Item</button>
             <a href="/" class="btn btn-secondary">Back to List</a>
         </form>

@@ -2,6 +2,7 @@ package com.example.demo;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class SuperMarket {
@@ -15,6 +16,9 @@ public class SuperMarket {
 	String name;
 	double price;
 	int quantity;
+	
+	@ManyToOne
+    private Shelf shelf;
 	public long getId() {
 		return id;
 	}
@@ -39,16 +43,26 @@ public class SuperMarket {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	public Shelf getShelf() {
+		return shelf;
+	}
+	public void setShelf(Shelf shelf) {
+		this.shelf = shelf;
+	}
 	@Override
 	public String toString() {
-		return "SuperMarket [id=" + id + ", name=" + name + ", price=" + price + ", quantity=" + quantity + "]";
+		return "SuperMarket [id=" + id + ", name=" + name + ", price=" + price + ", quantity=" + quantity + ", shelf="
+				+ shelf + "]";
 	}
-	public SuperMarket(long id, String name, double price, int quantity) {
+	public SuperMarket(long id, String name, double price, int quantity, Shelf shelf) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.quantity = quantity;
+		this.shelf = shelf;
 	}
+	
+	
 	
 }

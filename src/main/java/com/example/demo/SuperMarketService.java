@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,7 @@ public class SuperMarketService {
 	}
 
 
-	public void deleteItem(int id) {
+	public void deleteItem(long id) {
 		repo.deleteById(id);
 		
 	}
@@ -39,6 +40,12 @@ public class SuperMarketService {
 		// TODO Auto-generated method stub
 		return repo.findAll();
 	}
+
+
+	public SuperMarket findById(Long id) {
+        Optional<SuperMarket> result = repo.findById(id);
+        return result.orElse(null); // Return the entity or null if not found
+    }
 
 
 }
