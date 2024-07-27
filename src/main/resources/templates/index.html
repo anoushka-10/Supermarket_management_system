@@ -41,8 +41,8 @@
                     <th>Name</th>
                     <th>Price</th>
                     <th>Quantity</th>
-                   
                     <th>Shelf</th>
+					<th>Rack</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -52,7 +52,9 @@
                     <td th:text="${item.name}"></td>
                     <td th:text="${item.price}"></td>
 					<td th:text="${item.quantity}"></td>
-                    <td th:text="${item.shelf != null ? item.shelf.rack != null ? item.shelf.rack.rackName : 'No Rack' : 'No Shelf'
+                    <td th:text="${item.shelf != null ? item.shelf.rack != null ? item.shelf.shelfName : 'No Rack' : 'No Shelf'
+}"></td>
+					<td th:text="${item.shelf != null ? item.shelf.rack != null ? item.shelf.rack.rackName : 'No Shelf' : 'No Rack'
 }"></td>
                     <td>
                         <a th:href="@{/deleteitem/{id}(id=${item.id})}" class="btn btn-danger btn-sm">Delete</a>

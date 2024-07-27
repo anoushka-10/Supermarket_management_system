@@ -32,12 +32,7 @@
                     <option th:each="shelf : ${list_of_shelves}" th:value="${shelf.shelfId}" th:text="${shelf.shelfName}">Shelf</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="rack">Rack</label>
-                <select class="form-control" id="rack" th:field="*{shelf.rack.rackId}">
-                    <option th:each="rack : ${list_of_racks}" th:value="${rack.rackId}">Rack</option>
-                </select>
-            </div>
+          
             <button type="submit" class="btn btn-primary">Save Item</button>
             <a href="/" class="btn btn-secondary">Back to List</a>
         </form>

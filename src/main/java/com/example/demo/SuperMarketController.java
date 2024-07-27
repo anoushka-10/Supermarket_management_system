@@ -41,6 +41,8 @@ public class SuperMarketController {
     public String createItem(Model model) {
         SuperMarket sm = new SuperMarket();
         model.addAttribute("item", sm);
+        model.addAttribute("list_of_racks", rackserv.getAllRacks());
+        model.addAttribute("list_of_shelves", shelfservice.findAll());
         return "additem";
     }
 
@@ -49,6 +51,9 @@ public class SuperMarketController {
         SuperMarket sm = service.findById(id);
         if (sm != null) {
             model.addAttribute("item", sm);
+            model.addAttribute("item", sm);
+            model.addAttribute("list_of_racks", rackserv.getAllRacks());
+            model.addAttribute("list_of_shelves", shelfservice.findAll());
             return "additem";
         } else {
             return "redirect:/";
@@ -81,7 +86,7 @@ public class SuperMarketController {
         }
         return "redirect:/layout";
     }
-
+    
     @GetMapping("/newitem")
     public String showAddItemForm(Model model) {
         model.addAttribute("item", new SuperMarket());
