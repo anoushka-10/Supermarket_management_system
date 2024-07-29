@@ -72,6 +72,12 @@ public class Shelf {
 		return "Shelf [shelfId=" + shelfId + ", shelfName=" + shelfName + ", rack=" + rack + ", item=" + item + "]";
 	}
 
+	public boolean isOccupied() {
+		// TODO Auto-generated method stub
+		if(this.item==null) return false;
+		return true;
+	}
+
     // Getters and setters
     
 }

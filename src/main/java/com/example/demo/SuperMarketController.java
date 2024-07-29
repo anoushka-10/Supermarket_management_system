@@ -1,5 +1,7 @@
 package com.example.demo;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,14 +39,14 @@ public class SuperMarketController {
         return "redirect:/";
     }
 
-    @GetMapping("/additem")
-    public String createItem(Model model) {
-        SuperMarket sm = new SuperMarket();
-        model.addAttribute("item", sm);
-        model.addAttribute("list_of_racks", rackserv.getAllRacks());
-        model.addAttribute("list_of_shelves", shelfservice.findAll());
-        return "additem";
-    }
+//    @GetMapping("/additem")
+//    public String createItem(Model model) {
+//        SuperMarket sm = new SuperMarket();
+//        model.addAttribute("item", sm);
+//        model.addAttribute("list_of_racks", rackserv.getAllRacks());
+//        model.addAttribute("list_of_shelves", shelfservice.findAll());
+//        return "additem";
+//    }
 
     @GetMapping("/updateitem/{id}")
     public String updateItem(@PathVariable Long id, Model model) {
@@ -69,7 +71,7 @@ public class SuperMarketController {
     @GetMapping("/layout")
     public String getLayout(Model model) {
         model.addAttribute("racks", rackserv.getAllRacks());
-        return "supermarket";
+        return "layout"; // Ensure this matches your Thymeleaf template name
     }
 
     @PostMapping("/addItem")
@@ -87,11 +89,14 @@ public class SuperMarketController {
         return "redirect:/layout";
     }
     
-    @GetMapping("/newitem")
-    public String showAddItemForm(Model model) {
+    @GetMapping("/additem")
+    public String AddItemForm(Model model) {
+    	//List<Rack> racks=rackserv.getAllRacks();
+    	List<Shelf> allshelves=shelfservice.findAll();
+    	List<Shelf> unused_shelf=allshelves.stream().filter(shelf-> !shelf.isOccupied()).collect(Collectors.toList());
         model.addAttribute("item", new SuperMarket());
         model.addAttribute("list_of_racks", rackserv.getAllRacks());
-        model.addAttribute("list_of_shelves", shelfservice.findAll());
+        model.addAttribute("list_of_shelves", unused_shelf);
         return "additem";  // Assumes you have a Thymeleaf template named "additem.html"
     }
 }
