@@ -129,7 +129,8 @@
                                 th:text="${shelf.item != null ? shelf.item.name : 'No item'}"
                                 th:classappend="${shelf.item != null} ? 'shelf-filled' : ''"
                                 th:title="${shelf.shelfName}"
-                                th:onclick="'handleShelfClick(' + ${shelf.shelfId} + ')'">
+                                th:onclick="'handleShelfClick(' + ${shelf.shelfId} + ')'"
+								onclick="handleShelfClick([[${shelf.shelfId}]])">
                             Shelf
                         </button>
                     </div>
@@ -143,7 +144,7 @@
             // Handle shelf button click
             console.log('Shelf clicked:', shelfId);
             // Redirect to shelf details page
-            window.location.href = '/shelf-details/' + encodeURIComponent(shelfId);
+            window.location.href = '/additemtoshelf/' + encodeURIComponent(shelfId);
         }
     </script>
 </body>

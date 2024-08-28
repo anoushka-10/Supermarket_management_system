@@ -22,6 +22,14 @@ public class RackService {
 		super();
 		this.rackRepository = rackRepository;
 	}
+    public Rack findById(Long id) {
+        return rackRepository.findById(id).orElse(null);
+    }
+
+	public void save(Rack rackn) {
+		// TODO Auto-generated method stub
+		rackRepository.save(rackn);
+	}
 
     // Other methods to manage racks
   

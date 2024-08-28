@@ -21,4 +21,9 @@ public class ShelfService {
         return shelfRepository.findById(id).orElse(null);
     }
     // Other methods to manage shelves
+
+	public void save(Shelf shelf) {
+		// TODO Auto-generated method stub
+		shelfRepository.save(shelf);
+	}
 }

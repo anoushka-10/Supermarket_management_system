@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Rack</title>
+</head>
+<body>
+    <h1>Add Rack</h1>
+
+    <form th:action="@{/addRack}" method="post">
+        <label for="rackName">Rack Name:</label>
+        <input type="text" id="rackName" name="rackName" required>
+        
+        <h2>Shelves</h2>
+        <div id="shelves-container">
+            <div class="shelf-group">
+                <label for="shelfName0">Shelf Name:</label>
+                <input type="text" id="shelfName0" name="shelves" required>
+                <button type="button" onclick="removeShelf(0)">Remove Shelf</button>
+            </div>
+        </div>
+        <button type="button" onclick="addShelf()">Add Shelf</button>
+        <br>
+        <input type="submit" value="Save Rack">
+    </form>
+
+    <script>
+        function addShelf() {
+            const shelvesContainer = document.getElementById('shelves-container');
+            const newIndex = shelvesContainer.children.length;
+            const newShelfDiv = document.createElement('div');
+            newShelfDiv.className = 'shelf-group';
+            newShelfDiv.innerHTML = `
+                <label for="shelfName${newIndex}">Shelf Name:</label>
+                <input type="text" id="shelfName${newIndex}" name="shelves" required>
+                <button type="button" onclick="removeShelf(${newIndex})">Remove Shelf</button>
+            `;
+            shelvesContainer.appendChild(newShelfDiv);
+        }
+
+        function removeShelf(index) {
+            const shelvesContainer = document.getElementById('shelves-container');
+            shelvesContainer.removeChild(shelvesContainer.children[index]);
+
+            // Re-index remaining shelves
+            for (let i = 0; i < shelvesContainer.children.length; i++) {
+                const shelfGroup = shelvesContainer.children[i];
+                shelfGroup.querySelector('label').setAttribute('for', 'shelfName' + i);
+                shelfGroup.querySelector('input').setAttribute('id', 'shelfName' + i);
+                shelfGroup.querySelector('button').setAttribute('onclick', `removeShelf(${i})`);
+            }
+        }
+    </script>
+</body>
+</html>

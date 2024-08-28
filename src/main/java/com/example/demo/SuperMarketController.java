@@ -1,4 +1,5 @@
 package com.example.demo;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,18 +49,50 @@ public class SuperMarketController {
 //        return "additem";
 //    }
 
-    @GetMapping("/updateitem/{id}")
-    public String updateItem(@PathVariable Long id, Model model) {
-        SuperMarket sm = service.findById(id);
-        if (sm != null) {
-            model.addAttribute("item", sm);
-            model.addAttribute("item", sm);
-            model.addAttribute("list_of_racks", rackserv.getAllRacks());
-            model.addAttribute("list_of_shelves", shelfservice.findAll());
-            return "additem";
+//    @GetMapping("/updateitem/{id}")
+//    public String updateItem(@PathVariable Long id, Model model) {
+//        SuperMarket sm = service.findById(id);
+//        if (sm != null) {
+//            model.addAttribute("item", sm);
+//            model.addAttribute("item", sm);
+//            model.addAttribute("list_of_racks", rackserv.getAllRacks());
+//            model.addAttribute("list_of_shelves", shelfservice.findAll());
+//            return "additem";
+//        } else {
+//            return "redirect:/";
+//        }
+//    }
+
+    @GetMapping({"/additemtoshelf/{shelfId}", "/updateitem/{id}"})
+    public String showItemForm(@PathVariable(required = false) Long shelfId, 
+                               @PathVariable(required = false) Long id, 
+                               Model model) {
+        if (id != null) {
+            // Editing existing item
+            SuperMarket item = service.findById(id);
+            if (item != null) {
+                model.addAttribute("item", item);
+                model.addAttribute("shelf", item.getShelf()); // Populate shelf data for updating
+            } else {
+                return "redirect:/";
+            }
         } else {
-            return "redirect:/";
+            // Adding new item to a shelf
+            Shelf shelf = shelfservice.findById(shelfId);
+            if (shelf != null) {
+                SuperMarket newItem = new SuperMarket();
+                newItem.setShelf(shelf); // Set shelf for the new item
+                model.addAttribute("item", newItem);
+                model.addAttribute("shelf", shelf);
+            } else {
+                return "redirect:/";
+            }
         }
+        List<Shelf> allshelves=shelfservice.findAll();
+        List<Shelf> unused=allshelves.stream().filter(sh->!sh.isOccupied()).collect(Collectors.toList());
+        model.addAttribute("list_of_racks", rackserv.getAllRacks());
+        model.addAttribute("list_of_shelves", unused);
+        return "additem"; // A single template for both add and update operations
     }
 
     @PostMapping("/save")
@@ -99,4 +132,34 @@ public class SuperMarketController {
         model.addAttribute("list_of_shelves", unused_shelf);
         return "additem";  // Assumes you have a Thymeleaf template named "additem.html"
     }
+    
+    @PostMapping("/addRack")
+    public String addRack(@RequestParam String rackName, @RequestParam List<String> shelves) {
+        Rack newRack = new Rack();
+        newRack.setRackName(rackName);
+
+        List<Shelf> shelfList = new ArrayList<>();
+        for (String shelfName : shelves) {
+            Shelf newShelf = new Shelf();
+            newShelf.setShelfName(shelfName);
+            newShelf.setRack(newRack);
+            shelfList.add(newShelf);
+        }
+
+        newRack.setShelves(shelfList);
+        rackserv.save(newRack);
+        for (Shelf shelf : shelfList) {
+            shelfservice.save(shelf); // Save shelves explicitly
+        }
+        return "redirect:/layout";
+    }
+    
+    @GetMapping("/addrack")
+    public String showAddRackPage(Model model) {
+        model.addAttribute("shelves", new ArrayList<Shelf>()); // Provide an empty list or pre-populate as needed
+        return "addrack"; // This should match the filename addrack.html
+    }
 }
+
+    
+   
